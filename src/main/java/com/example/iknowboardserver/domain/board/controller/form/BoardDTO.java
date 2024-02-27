@@ -1,12 +1,12 @@
 package com.example.iknowboardserver.domain.board.controller.form;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
+@Setter
 public class BoardDTO {
     private Long id;
     private String title;

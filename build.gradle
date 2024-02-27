@@ -26,15 +26,30 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.mysql:mysql-connector-j'
+	implementation 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
+	testImplementation "org.mockito:mockito-core:3.+"
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'org.apache.commons:commons-lang3:3.14.0'
+	testImplementation "org.testcontainers:testcontainers:1.19.6"
+	testImplementation "org.testcontainers:junit-jupiter:1.19.6"
+	testImplementation "org.testcontainers:mysql:1.19.6"
+
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'com.google.code.gson:gson:2.8.9'
+	implementation 'com.sun.xml.bind:jaxb-impl:4.0.1'
+	implementation 'com.sun.xml.bind:jaxb-core:4.0.1'
+	implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 	systemProperty 'spring.profiles.active', 'test'
+}
+
+jar {
+	enabled = true
 }

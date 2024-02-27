@@ -29,7 +29,7 @@ public class BoardController {
         return boardService.updateBoard(id, reqForm);
     }
     @DeleteMapping("/{id}")
-    public void deleteBoard(@PathVariable Long id) {
-        boardService.deleteBoard(id);
+    public ResponseEntity deleteBoard(@PathVariable Long id) {
+        return boardService.deleteBoard(id);
     }
 }
