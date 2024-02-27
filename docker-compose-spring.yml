@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  spring:
+    container_name: spring-ibs-prod-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - default
+      - gateway
+      - token_network
+
+networks:
+  default:
+    external:
+      name: IBS
+  gateway:
+    external:
+      name: iknow_gateway
+  token_network:
+    external:
+      name: token_network
