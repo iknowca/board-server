@@ -45,7 +45,7 @@ REST API를 제공하며, 클라이언트는 이 서버를 통해 게시판 서�
 - Container: Docker
 - Gateway: Nginx
 - Documentation: Notion, Mermaid
-- 부하 테스트: nGrinder, POSTMAN
+- performence test: nGrinder, POSTMAN
 - OS: Ubuntu, MacOS
 - IDE: IntelliJ, VSCode
 - VCS: Git
