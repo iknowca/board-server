@@ -1,18 +1,14 @@
 package com.example.iknowboardserver.domain.board.service;
 
-import com.example.iknowboardserver.domain.board.controller.form.BoardDTO;
-import com.example.iknowboardserver.domain.board.controller.form.BoardPostRequestForm;
-import com.example.iknowboardserver.domain.board.controller.form.BoardPutRequestForm;
-import org.springframework.http.ResponseEntity;
-
-import java.util.Map;
+import com.example.iknowboardserver.domain.board.controller.DTO.BoardDTO;
+import com.example.iknowboardserver.domain.board.entity.Board;
 
 public interface BoardService {
-    ResponseEntity<Map<String, Object>> createBoard(BoardPostRequestForm reqForm);
+    Board createBoard(BoardDTO reqForm);
 
-    ResponseEntity<BoardDTO> getBoard(Long id);
+    Board getBoard(Long id);
 
-    ResponseEntity<Map<String, Object>> updateBoard(Long id, BoardPutRequestForm reqForm);
+    Board updateBoard(Long id, BoardDTO reqForm);
 
-    ResponseEntity<Map<String, String>> deleteBoard(Long id);
+    void deleteBoard(Long id);
 }

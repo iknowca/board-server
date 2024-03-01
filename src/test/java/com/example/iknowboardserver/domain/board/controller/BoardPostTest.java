@@ -1,8 +1,7 @@
 package com.example.iknowboardserver.domain.board.controller;
 
 import com.example.iknowboardserver.SpringBootTestClass;
-import com.example.iknowboardserver.domain.board.controller.form.BoardPostRequestForm;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.example.iknowboardserver.domain.board.controller.DTO.BoardDTO;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +23,7 @@ public class BoardPostTest extends SpringBootTestClass {
     class Describe_request_board_post {
         String title;
         String content;
-        BoardPostRequestForm reqForm;
+        BoardDTO request;
         @Nested
         @DisplayName("제목과 내용을 입력하면")
         class Context_with_title_and_content {
@@ -32,9 +31,9 @@ public class BoardPostTest extends SpringBootTestClass {
             void setUp() {
                 title = RandomStringUtils.random(10);
                 content = RandomStringUtils.random(200);
-                reqForm = new BoardPostRequestForm();
-                reqForm.setTitle(title);
-                reqForm.setContent(content);
+                request = new BoardDTO();
+                request.setTitle(title);
+                request.setContent(content);
             }
 
             @Test
@@ -42,9 +41,11 @@ public class BoardPostTest extends SpringBootTestClass {
             void It_creates_board() throws Exception {
                 mockMvc.perform(MockMvcRequestBuilders.post("/board")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(reqForm)))
+                        .content(objectMapper.writeValueAsString(request)))
                         .andExpect(status().isOk())
-                        .andExpect(jsonPath("$.id").exists());
+                        .andExpect(jsonPath("$.data.title").value(title))
+                        .andExpect(jsonPath("$.data.content").value(content))
+                        .andExpect(jsonPath("$.data.id").exists());
                 verify(boardRepository, times(1)).save(any());
             }
         }

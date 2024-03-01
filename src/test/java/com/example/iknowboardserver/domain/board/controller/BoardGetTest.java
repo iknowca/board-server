@@ -43,9 +43,9 @@ public class BoardGetTest extends SpringBootTestClass {
                         .contentType(MediaType.APPLICATION_JSON)
                         )
                         .andExpect(status().isOk())
-                        .andExpect(jsonPath("$.id").value(board.getId()))
-                        .andExpect(jsonPath("$.title").value(board.getTitle()))
-                        .andExpect(jsonPath("$.content").value(board.getContent()));
+                        .andExpect(jsonPath("$.data.id").value(board.getId()))
+                        .andExpect(jsonPath("$.data.title").value(board.getTitle()))
+                        .andExpect(jsonPath("$.data.content").value(board.getContent()));
             }
         }
 
