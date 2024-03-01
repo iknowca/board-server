@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -20,8 +21,10 @@ public class Board {
     private Long id;
     private String title;
     private String content;
-    @CreatedDate
+    @CreationTimestamp
     private String createdAt;
     @UpdateTimestamp
     private String updatedAt;
+
+    private Long writerId;
 }

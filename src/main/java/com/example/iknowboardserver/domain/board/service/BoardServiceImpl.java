@@ -1,16 +1,13 @@
 package com.example.iknowboardserver.domain.board.service;
 
-import com.example.iknowboardserver.domain.board.controller.form.BoardDTO;
-import com.example.iknowboardserver.domain.board.controller.form.BoardPostRequestForm;
-import com.example.iknowboardserver.domain.board.controller.form.BoardPutRequestForm;
+import com.example.iknowboardserver.domain.board.controller.DTO.BoardDTO;
 import com.example.iknowboardserver.domain.board.entity.Board;
+import com.example.iknowboardserver.domain.board.exception.BoardException;
 import com.example.iknowboardserver.domain.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -20,53 +17,46 @@ public class BoardServiceImpl implements BoardService {
     final BoardRepository boardRepository;
 
     @Override
-    public ResponseEntity<Map<String, Object>> createBoard(BoardPostRequestForm reqForm) {
+    public Board createBoard(BoardDTO request) {
         Board board = Board.builder()
-                .title(reqForm.getTitle())
-                .content(reqForm.getContent())
+                .title(request.getTitle())
+                .content(request.getContent())
                 .build();
 
         board = boardRepository.save(board);
-        return ResponseEntity.ok(Map.of("id", board.getId()));
+        return board;
     }
 
     @Override
-    public ResponseEntity<BoardDTO> getBoard(Long id) {
+    public Board getBoard(Long id) {
         Optional<Board> maybeBoard = boardRepository.findById(id);
         if (maybeBoard.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new BoardException(BoardException.BOARD_ERROR.INVALID_BOARD);
         }
         Board board = maybeBoard.get();
-        return ResponseEntity.ok(BoardDTO.builder()
-                .id(board.getId())
-                .title(board.getTitle())
-                .content(board.getContent())
-                .createdAt(board.getCreatedAt())
-                .updatedAt(board.getUpdatedAt())
-                .build());
+        return board;
     }
 
     @Override
-    public ResponseEntity<Map<String, Object>> updateBoard(Long id, BoardPutRequestForm reqForm) {
+    public Board updateBoard(Long id, BoardDTO request) {
         Optional<Board> maybeBoard = boardRepository.findById(id);
         if (maybeBoard.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new BoardException(BoardException.BOARD_ERROR.INVALID_BOARD);
         }
         Board board = maybeBoard.get();
-        board.setTitle(reqForm.getTitle());
-        board.setContent(reqForm.getContent());
+        board.setTitle(request.getTitle());
+        board.setContent(request.getContent());
         board = boardRepository.save(board);
-        return ResponseEntity.ok(Map.of("id", board.getId()));
+        return board;
     }
 
 
     @Override
-    public ResponseEntity<Map<String, String>> deleteBoard(Long id) {
+    public void deleteBoard(Long id) {
         Optional<Board> maybeBoard = boardRepository.findById(id);
         if (maybeBoard.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            throw new BoardException(BoardException.BOARD_ERROR.INVALID_BOARD);
         }
         boardRepository.deleteById(id);
-        return ResponseEntity.ok(Map.of("id", id.toString(), "status", "deleted"));
     }
 }
