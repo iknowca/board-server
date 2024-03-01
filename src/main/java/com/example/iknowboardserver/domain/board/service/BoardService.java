@@ -3,6 +3,8 @@ package com.example.iknowboardserver.domain.board.service;
 import com.example.iknowboardserver.domain.board.controller.DTO.BoardDTO;
 import com.example.iknowboardserver.domain.board.entity.Board;
 
+import java.util.List;
+
 public interface BoardService {
     Board createBoard(BoardDTO reqForm);
 
@@ -11,4 +13,6 @@ public interface BoardService {
     Board updateBoard(Long id, BoardDTO reqForm);
 
     void deleteBoard(Long id);
+
+    List<Board> getBoardList();
 }

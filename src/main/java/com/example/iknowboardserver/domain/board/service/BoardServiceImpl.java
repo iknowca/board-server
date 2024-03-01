@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -58,5 +59,10 @@ public class BoardServiceImpl implements BoardService {
             throw new BoardException(BoardException.BOARD_ERROR.INVALID_BOARD);
         }
         boardRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Board> getBoardList() {
+        return boardRepository.findAll();
     }
 }
