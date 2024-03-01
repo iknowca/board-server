@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/board")
 @RequiredArgsConstructor
@@ -34,6 +36,11 @@ public class BoardController {
     public ResponseEntity deleteBoard(@PathVariable Long id) {
         boardService.deleteBoard(id);
         return ResponseEntity.ok(new Result(null, "success"));
+    }
+    @GetMapping("/list")
+    public ResponseEntity<Result<List<BoardDTO>>> getBoardList() {
+        List<Board> boardList = boardService.getBoardList();
+        return ResponseEntity.ok(new Result<>(BoardDTO.from(boardList), "success"));
     }
     @Getter
     public static class Result<T> {
