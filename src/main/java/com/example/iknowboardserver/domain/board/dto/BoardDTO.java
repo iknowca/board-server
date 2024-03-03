@@ -1,15 +1,15 @@
-package com.example.iknowboardserver.domain.board.controller.DTO;
+package com.example.iknowboardserver.domain.board.dto;
 
 import com.example.iknowboardserver.domain.board.entity.Board;
 import lombok.*;
 
 import java.util.List;
 
-@NoArgsConstructor
-@Builder
-@Getter
 @Setter
+@Getter
+@NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class BoardDTO {
     private Long id;
     private String title;
@@ -17,17 +17,19 @@ public class BoardDTO {
     private String createdAt;
     private String updatedAt;
 
+    private Long writerId;
+
     public static BoardDTO from(Board board) {
         return BoardDTO.builder()
                 .id(board.getId())
                 .title(board.getTitle())
                 .content(board.getContent())
+                .writerId(board.getWriterId())
                 .createdAt(board.getCreatedAt().toString())
                 .updatedAt(board.getUpdatedAt().toString())
                 .build();
     }
-
-    public static List<BoardDTO> from(List<Board> boardList) {
-        return boardList.stream().map(BoardDTO::from).toList();
+    public static List<BoardDTO> from(List<Board> boards) {
+        return boards.stream().map(BoardDTO::from).toList();
     }
 }

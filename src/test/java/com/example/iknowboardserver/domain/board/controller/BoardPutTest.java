@@ -1,7 +1,7 @@
 package com.example.iknowboardserver.domain.board.controller;
 
 import com.example.iknowboardserver.SpringBootTestClass;
-import com.example.iknowboardserver.domain.board.controller.DTO.BoardDTO;
+import com.example.iknowboardserver.domain.board.dto.BoardDTO;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
