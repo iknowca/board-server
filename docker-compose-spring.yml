@@ -17,7 +17,7 @@ networks:
       name: IBS
   gateway:
     external:
-      name: iknow_gateway
+      name: ss_gateway
   token_network:
     external:
       name: token_network
