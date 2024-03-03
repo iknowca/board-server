@@ -1,6 +1,6 @@
 package com.example.iknowboardserver.domain.board.service;
 
-import com.example.iknowboardserver.domain.board.controller.DTO.BoardDTO;
+import com.example.iknowboardserver.domain.board.dto.BoardDTO;
 import com.example.iknowboardserver.domain.board.entity.Board;
 import com.example.iknowboardserver.domain.board.exception.BoardException;
 import com.example.iknowboardserver.domain.board.repository.BoardRepository;
