@@ -46,7 +46,7 @@ public class BoardPostTest extends SpringBootTestClass {
                         .andExpect(jsonPath("$.data.title").value(title))
                         .andExpect(jsonPath("$.data.content").value(content))
                         .andExpect(jsonPath("$.data.id").exists());
-                verify(boardRepository, times(1)).save(any());
+                verify(boardMapper, times(1)).insert(any());
             }
         }
     }

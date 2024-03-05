@@ -24,9 +24,6 @@ public class BoardDTO {
                 .id(board.getId())
                 .title(board.getTitle())
                 .content(board.getContent())
-                .writerId(board.getWriterId())
-                .createdAt(board.getCreatedAt().toString())
-                .updatedAt(board.getUpdatedAt().toString())
                 .build();
     }
     public static List<BoardDTO> from(List<Board> boards) {
