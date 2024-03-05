@@ -8,6 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("게시판 생성 UNIT 테스트")
@@ -34,7 +36,11 @@ public class CreateBoardTest extends SpringBootTestClass {
                 assertThat(board.getTitle()).isEqualTo(request.getTitle());
                 assertThat(board.getContent()).isEqualTo(request.getContent());
 
-                boardRepository.findById(board.getId()).isEmpty();
+                Optional<Board> maybeBoard = boardMapper.selectById(board.getId());
+                assertThat(maybeBoard).isPresent();
+                Board boardInDB = maybeBoard.get();
+                assertThat(boardInDB.getTitle()).isEqualTo(request.getTitle());
+                assertThat(boardInDB.getContent()).isEqualTo(request.getContent());
             }
         }
     }

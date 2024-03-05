@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.iknowboardserver.mapper.BoardMapper">
+
+    <select id="createTable">
+        CREATE TABLE IF NOT EXISTS board
+        (
+            id      BIGINT AUTO_INCREMENT PRIMARY KEY,
+            title   VARCHAR(255) NOT NULL,
+            content TEXT         NOT NULL
+        )
+    </select>
+    <select id="selectAll" resultType="com.example.iknowboardserver.domain.board.entity.Board">
+        SELECT *
+        FROM board
+    </select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO board (title, content)
+        VALUES (#{title}, #{content})
+    </insert>
+    <select id="selectById" resultType="com.example.iknowboardserver.domain.board.entity.Board">
+        SELECT *
+        FROM board
+        WHERE id = #{id}
+    </select>
+    <update id="update" parameterType="com.example.iknowboardserver.domain.board.entity.Board">
+        UPDATE board
+        SET title   = #{title},
+            content = #{content}
+        WHERE id = #{id}
+    </update>
+    <delete id="delete" parameterType="long">
+        DELETE
+        FROM board
+        WHERE id = #{id}
+    </delete>
+
+    <!-- More mappings... -->
+</mapper>

@@ -27,7 +27,7 @@ public class BoardDeleteTest extends SpringBootTestClass {
                     .title(RandomStringUtils.random(10, true, true))
                     .content(RandomStringUtils.random(200, true, true))
                     .build();
-            board = boardRepository.save(board);
+            boardMapper.insert(board);
             id = board.getId();
         }
 
