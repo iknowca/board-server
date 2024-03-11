@@ -83,4 +83,15 @@ public class BoardResponseSchema {
         openAPI.getComponents().addSchemas("GetBoardListResponse", response);
         return response;
     }
+    @Bean
+    public Schema messageResponseBody() {
+        Schema response = new Schema<Map<String, Object>>()
+                .type("object")
+                .contentMediaType("application/json")
+                .name("message response")
+                .addProperty("message", new StringSchema().example("request completed"))
+                .addProperty("status", new StringSchema().example("success"));
+        openAPI.getComponents().addSchemas("MessageResponseBody", response);
+        return response;
+    }
 }
