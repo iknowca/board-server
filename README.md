@@ -35,10 +35,10 @@ REST API를 제공하며, 클라이언트는 이 서버를 통해 게시판 서�
 ![img.png](readme/project-arch.png)
 [auth-server](https://github.com/iknowca/iknow-authentication-server)는 프로젝트의 인증과 인가를 담당하는 서버입니다.<br>
 [board-server](https://github.com/iknowca/board-server)는 게시글을 담당하는 서버입니다.<br>
-[main-frontend](https://github.com/iknowca/iknow-main-frontend)는 프론트엔드입니다.<br>
+[frontend](https://github.com/iknowca/see-space-frontend)는 프론트엔드입니다.<br>
 
 ## 기술 스택
-- Spring Boot / Security / Data JPA
+- Spring Boot / Security / MyBatis
 - DB: MySQL/ Redis
 - Test: Junit5/ Mockito/ Testcontainer
 - CI/CD: Github Actions

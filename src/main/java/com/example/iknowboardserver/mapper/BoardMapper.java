@@ -8,7 +8,6 @@ import java.util.Optional;
 
 @Mapper
 public interface BoardMapper {
-    void createTable();
     Optional<Board> selectById(Long id);
     void insert(Board board);
     void delete(Long id);

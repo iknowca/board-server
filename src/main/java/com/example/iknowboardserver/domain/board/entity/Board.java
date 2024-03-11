@@ -1,6 +1,10 @@
 package com.example.iknowboardserver.domain.board.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.time.LocalDateTime;
 
 @Builder
 @NoArgsConstructor
@@ -10,9 +14,9 @@ import lombok.*;
 public class Board {
     private Long id;
     private String title;
-    private String content;
-    private String createdAt;
-    private String updatedAt;
 
+    private Long contentId;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private Long writerId;
 }
