@@ -3,7 +3,6 @@ package com.example.iknowboardserver.domain.board.controller;
 import com.example.iknowboardserver.SpringBootTestClass;
 import com.example.iknowboardserver.domain.board.dto.BoardContentDTO;
 import com.example.iknowboardserver.domain.board.dto.BoardDTO;
-import com.jayway.jsonpath.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
