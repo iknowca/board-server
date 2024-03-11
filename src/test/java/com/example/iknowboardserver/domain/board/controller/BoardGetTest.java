@@ -1,7 +1,10 @@
 package com.example.iknowboardserver.domain.board.controller;
 
 import com.example.iknowboardserver.SpringBootTestClass;
+import com.example.iknowboardserver.domain.board.dto.BoardContentDTO;
+import com.example.iknowboardserver.domain.board.dto.BoardDTO;
 import com.example.iknowboardserver.domain.board.entity.Board;
+import com.jayway.jsonpath.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,15 +27,23 @@ public class BoardGetTest extends SpringBootTestClass {
         Board board;
 
         @BeforeEach
-        void setUp() {
-            board = Board.builder()
-                    .title(RandomStringUtils.random(10, true, true))
-                    .content(RandomStringUtils.random(200, true, true))
-                    .build();
-            boardMapper.insert(board);
-            id = board.getId();
-        }
+        void setUp() throws Exception {
+            title = RandomStringUtils.random(10, true, false);
+            content = RandomStringUtils.random(200, true, false);
+            BoardContentDTO requestBoardContent = new BoardContentDTO();
+            requestBoardContent.setContent(content);
+            BoardDTO postRequest = new BoardDTO();
+            postRequest.setTitle(title);
+            postRequest.setBoardContent(requestBoardContent);
 
+            mockMvc.perform(MockMvcRequestBuilders.post("/board")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(postRequest)))
+                    .andExpect(status().isOk())
+                    .andDo(result -> {
+                        id = JsonPath.parse(result.getResponse().getContentAsString()).read("$.data.id", Long.class);
+                    });
+        }
         @Nested
         @DisplayName("게시글이 존재하면")
         class Context_with_board_exists {
@@ -43,9 +54,9 @@ public class BoardGetTest extends SpringBootTestClass {
                         .contentType(MediaType.APPLICATION_JSON)
                         )
                         .andExpect(status().isOk())
-                        .andExpect(jsonPath("$.data.id").value(board.getId()))
-                        .andExpect(jsonPath("$.data.title").value(board.getTitle()))
-                        .andExpect(jsonPath("$.data.content").value(board.getContent()));
+                        .andExpect(jsonPath("$.data.id").exists())
+                        .andExpect(jsonPath("$.data.title").value(title))
+                        .andExpect(jsonPath("$.data.boardContent.content").value(content));
             }
         }
 

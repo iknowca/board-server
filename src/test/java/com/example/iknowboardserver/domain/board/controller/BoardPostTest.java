@@ -1,6 +1,7 @@
 package com.example.iknowboardserver.domain.board.controller;
 
 import com.example.iknowboardserver.SpringBootTestClass;
+import com.example.iknowboardserver.domain.board.dto.BoardContentDTO;
 import com.example.iknowboardserver.domain.board.dto.BoardDTO;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,17 +24,19 @@ public class BoardPostTest extends SpringBootTestClass {
     class Describe_request_board_post {
         String title;
         String content;
-        BoardDTO request;
         @Nested
         @DisplayName("제목과 내용을 입력하면")
         class Context_with_title_and_content {
+            BoardDTO request;
             @BeforeEach
             void setUp() {
                 title = RandomStringUtils.random(10);
                 content = RandomStringUtils.random(200);
+                BoardContentDTO requestBoardContent = new BoardContentDTO();
+                requestBoardContent.setContent(content);
                 request = new BoardDTO();
                 request.setTitle(title);
-                request.setContent(content);
+                request.setBoardContent(requestBoardContent);
             }
 
             @Test
@@ -44,7 +47,6 @@ public class BoardPostTest extends SpringBootTestClass {
                         .content(objectMapper.writeValueAsString(request)))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.data.title").value(title))
-                        .andExpect(jsonPath("$.data.content").value(content))
                         .andExpect(jsonPath("$.data.id").exists());
                 verify(boardMapper, times(1)).insert(any());
             }

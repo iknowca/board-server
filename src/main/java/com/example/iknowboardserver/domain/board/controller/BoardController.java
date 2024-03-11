@@ -1,7 +1,9 @@
 package com.example.iknowboardserver.domain.board.controller;
 
+import com.example.iknowboardserver.domain.board.dto.BoardContentDTO;
 import com.example.iknowboardserver.domain.board.dto.BoardDTO;
 import com.example.iknowboardserver.domain.board.entity.Board;
+import com.example.iknowboardserver.domain.board.entity.BoardContent;
 import com.example.iknowboardserver.domain.board.service.BoardService;
 import com.example.iknowboardserver.util.responseBody.DTOResponseBody;
 import com.example.iknowboardserver.util.responseBody.MessageResponseBody;
@@ -26,7 +28,10 @@ public class BoardController {
     @GetMapping("/{id}")
     public ResponseEntity<DTOResponseBody<BoardDTO>> getBoard(@PathVariable Long id) {
         Board board = boardService.getBoard(id);
-        return ResponseEntity.ok(new DTOResponseBody<>(BoardDTO.from(board), "success"));
+        BoardContent boardContent = boardService.getBoardContent(board.getContentId());
+        BoardDTO response = BoardDTO.from(board);
+        response.setBoardContent(BoardContentDTO.from(boardContent));
+        return ResponseEntity.ok(new DTOResponseBody<>(response, "success"));
     }
     @PutMapping("/{id}")
     public ResponseEntity<DTOResponseBody<BoardDTO>> updateBoard(@PathVariable Long id, @RequestBody BoardDTO request) {

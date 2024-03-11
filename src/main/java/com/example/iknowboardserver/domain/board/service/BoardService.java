@@ -1,7 +1,9 @@
 package com.example.iknowboardserver.domain.board.service;
 
+import com.example.iknowboardserver.domain.board.dto.BoardContentDTO;
 import com.example.iknowboardserver.domain.board.dto.BoardDTO;
 import com.example.iknowboardserver.domain.board.entity.Board;
+import com.example.iknowboardserver.domain.board.entity.BoardContent;
 
 import java.util.List;
 
@@ -15,4 +17,6 @@ public interface BoardService {
     void deleteBoard(Long id);
 
     List<Board> getBoardList();
+
+    BoardContent getBoardContent(Long contentId);
 }

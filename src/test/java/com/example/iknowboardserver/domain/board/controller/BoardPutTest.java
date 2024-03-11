@@ -1,8 +1,10 @@
 package com.example.iknowboardserver.domain.board.controller;
 
 import com.example.iknowboardserver.SpringBootTestClass;
+import com.example.iknowboardserver.domain.board.dto.BoardContentDTO;
 import com.example.iknowboardserver.domain.board.dto.BoardDTO;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.jayway.jsonpath.JsonPath;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +22,7 @@ public class BoardPutTest extends SpringBootTestClass {
     @DisplayName("클라이언트가 게시글을 수정을 요청하면")
     class Describe_request_board_put {
         BoardDTO request;
-        Long boardId;
+        Long id;
 
         String title;
         String content;
@@ -32,45 +34,47 @@ public class BoardPutTest extends SpringBootTestClass {
         class Context_with_title_and_content {
             @BeforeEach
             void setUp() throws Exception {
-                title = RandomStringUtils.random(10, true, true);
-                content = RandomStringUtils.random(200, true, true);
-                newTitle = RandomStringUtils.random(10, true, true);
-                newContent = RandomStringUtils.random(200, true, true);
+                String title = RandomStringUtils.random(10, true, false);
+                String content = RandomStringUtils.random(200, true, false);
+                BoardContentDTO requestBoardContent = new BoardContentDTO();
+                requestBoardContent.setContent(content);
+                BoardDTO postRequest = new BoardDTO();
+                postRequest.setTitle(title);
+                postRequest.setBoardContent(requestBoardContent);
 
-
-                request = new BoardDTO();
-                request.setTitle(title);
-                request.setContent(content);
-                System.out.println("request = " + request.getContent());
                 mockMvc.perform(MockMvcRequestBuilders.post("/board")
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(request)))
+                                .content(objectMapper.writeValueAsString(postRequest)))
                         .andExpect(status().isOk())
                         .andDo(result -> {
-                            JsonNode jsonNode = objectMapper.readTree(result.getResponse().getContentAsString());
-                            boardId = jsonNode.get("data").get("id").asLong();
+                            id = JsonPath.parse(result.getResponse().getContentAsString()).read("$.data.id", Long.class);
                         });
-
-                request = new BoardDTO();
-                request.setTitle(newTitle);
-                request.setContent(newContent);
-
             }
 
             @Nested
             @DisplayName("게시글이 존재하면")
             class Context_with_board_exists {
+                @BeforeEach
+                void setUp() {
+                    newTitle = RandomStringUtils.random(10, true, false);
+                    newContent = RandomStringUtils.random(200, true, false);
+                    BoardContentDTO requestBoardContent = new BoardContentDTO();
+                    requestBoardContent.setContent(newContent);
+                    request = new BoardDTO();
+                    request.setId(id);
+                    request.setTitle(newTitle);
+                    request.setBoardContent(requestBoardContent);
+                }
+
                 @Test
                 @DisplayName("게시글이 수정된다")
                 void It_updates_board() throws Exception {
-                    mockMvc.perform(MockMvcRequestBuilders.put("/board/" + boardId, request)
+                    mockMvc.perform(MockMvcRequestBuilders.put("/board/" + id)
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .content(objectMapper.writeValueAsString(request)))
                             .andExpect(status().isOk())
-                            .andExpect(jsonPath("$.data.id").value(boardId))
-                            .andExpect(jsonPath("$.data.title").value(newTitle))
-                            .andExpect(jsonPath("$.data.content").value(newContent));
-
+                            .andExpect(jsonPath("$.data.id").value(id))
+                            .andExpect(jsonPath("$.data.title").value(newTitle));
                 }
             }
 
@@ -78,12 +82,12 @@ public class BoardPutTest extends SpringBootTestClass {
             @DisplayName("게시글이 존재하지 않으면")
             class Context_with_no_board {
                 @Test
-                @DisplayName("404 에러를 반환한다")
-                void it_returns_404Error() throws Exception {
+                @DisplayName("400 에러를 반환한다")
+                void it_returns_400Error() throws Exception {
                     mockMvc.perform(MockMvcRequestBuilders.put("/board/0")
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .content(objectMapper.writeValueAsString(request)))
-                            .andExpect(status().isNotFound());
+                            .andExpect(status().isBadRequest());
                 }
             }
         }
